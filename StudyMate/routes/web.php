@@ -26,3 +26,7 @@ Route::resource('admin/users', 'Admin\UsersController',['except' => ['show', 'cr
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
     Route::resource('/users', 'UsersController',['except' => ['show', 'create','store']]);
 });
+
+Route::get('DeadlineManager', function () {
+    return view('DeadlineManager');
+});
