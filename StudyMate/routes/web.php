@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'DashboardController@index');
 
+Route::get('DeadlineManager', function () {
+    return view('DeadlineManager');
+});
 
 Auth::routes();
 
