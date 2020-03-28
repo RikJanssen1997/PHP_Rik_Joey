@@ -23,6 +23,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('admin/users', 'Admin\UsersController',['except' => ['show', 'create','store']]);
 
-Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:manage-users')->group(function(){
+Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:admin-role')->group(function(){
     Route::resource('/users', 'UsersController',['except' => ['show', 'create','store']]);
+    Route::resource('/module', 'ModuleController');
+    Route::resource('/admin', 'AdminController');
+    Route::resource('/teacher', 'TeacherController');
+    Route::resource('/lesson', 'LessonController');
+    Route::get('/grades/edit{lesson}', 'GradesController@edit')->name('grades.edit');
+    Route::get('/grades/update{lesson, request}', 'GradesController@update')->name('grades.update');
 });
