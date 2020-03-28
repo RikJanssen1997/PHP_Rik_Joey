@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\User;
-use App\Role;
+use App\Models\User;
+use App\Models\Role;
 use Gate;
 use Illuminate\Http\Request;
 
