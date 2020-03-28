@@ -68,3 +68,13 @@ html,
         .margin-top{
             margin-top: 2%;
         }
+        .SelectUser{
+            margin-bottom: 2%;
+        }
+        .emptyProgressBar{
+            text-align: center;
+            width: 100%;
+        }
+        #ECMessage{
+            margin-top: 3%;
+        }

@@ -47,123 +47,90 @@
 
     <div class="dashboardContent">
       <div class="progress">
-        <div class="progress-bar bg-danger" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-          <h5 id="progressText">Progress: 25%</h5>
+        <div class="progress-bar bg-danger" id="progressbar" role="progressbar" style="width: {{$progress}}%;" aria-valuenow={{$progress ?? 0}} aria-valuemin="0" aria-valuemax="100">
+          <h5 id="progressText">{{$progress}}%</h5>
         </div>
+        @if($progress == 0)
+        <div class="emptyProgressBar">
+        <h5 id="progressText">{{$progress}}%</h5>
+        </div>
+        @endif
       </div>
 
+      <div class="SelectUser">
+        <div class="dropdown show">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Kies een student uit..
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            @foreach($users as $user)
+            <a class="dropdown-item" href="{{$user->id}}">{{$user->name}}</a>
+            @endforeach
+          </div>
+        </div>
+      </div>
+      @if(isset($chosenUser))
+        <h3>Gekozen student: {{$chosenUser->name}}</h3>
+      @endif
+
       <div id="accordion">
+        @foreach($periods as $period)
         <div class="card">
-          <div class="card-header" id="headingOne">
+          <div class="card-header" id="heading{{$period->number}}">
             <h5 class="mb-0">
-              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Periode 1
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse{{$period->number}}" aria-expanded="false" aria-controls="collapseTwo">
+                Periode {{$period->number}}
               </button>
             </h5>
           </div>
-
-          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+          <div id="collapse{{$period->number}}" class="collapse" aria-labelledby="heading{{$period->number}}" data-parent="#accordion">
             <div class="card-body">
 
               <p>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Blok1" aria-expanded="false" aria-controls="collapseExample">
-                  Blok1
+                @foreach($period->blocks as $block)
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Blok{{$block->number}}" aria-expanded="false" aria-controls="collapseExample">
+                  Blok{{$block->number}}
                 </button>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Blok2" aria-expanded="false" aria-controls="collapseExample">
-                  Blok2
-                </button>
+                @endforeach
               </p>
-              <div class="collapse" id="Blok1">
-                <div class="card card-body">
-                <h2> Blok 1</h2>
-                  <div class="cardbox">
-                    @for ($i = 0; $i < count($modules); $i++) <div class="card margin-top" style="width: 18rem;">
-                      <div class="card-body">
-                        <h5 class="card-title">{{$modules[$i]->title}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{$modules[$i]->short}}</h6>
-                        <ul class="card-text">
-                          <li>Behaalde cijfer: {{$modules[$i]->grade}}</li>
-                          <li>Behaalde studiepunten: {{$modules[$i]->StudyPoints}}EC</li>
-                          <li>Max. aantal studiepunten: {{$modules[$i]->maxStudyPoints}}EC</li>
-                        </ul>
 
+              @foreach($period->blocks as $block)
+              <div class="collapse" id="Blok{{$block->number}}">
+                <div class="card card-body">
+                  <h2> Blok {{$block->number}}</h2>
+                  <div class="cardbox">
+                    @if(isset($modules))
+                    @foreach($modules as $module)
+                    @if($module->block_id == $block->id)
+                    <div class="card margin-top" style="width: 18rem;">
+                      <div class="card-body">
+                        <h5 class="card-title">{{$module->name}}</h5>
+                         <ul class="card-text">
+                          <li>Behaalde cijfer: {{$module->gotGrade}}</li>
+                          <li>Behaalde studiepunten: {{$module->gotEC}}EC </li>
+                          <li>Max. aantal studiepunten: {{$module->ec}}EC</li>
+                        </ul>
+                        
                       </div>
+                    </div>
+                      <div>
+                      </div>
+                    @endif
+                    @endforeach
                   </div>
-                  @endfor
+                  @endif
+                  @if($block->totalEC > 0)
+                    <p id="ECMessage">Dit blok heb je {{$block->totalObtainedEC}}EC van de {{$block->totalEC}}EC behaald.</p>
+                  @endif
                 </div>
               </div>
-            </div>
-
-                <div class="collapse" id="Blok2">
-                  <div class="card card-body">
-                    <h2> Blok 2</h2>
-                    <div class="cardbox">
-                      @for ($i = 0; $i <= 1; $i++) <div class="card margin-top" style="width: 18rem;">
-                        <div class="card-body">
-                          <h5 class="card-title">Webdevelopment 1</h5>
-                          <h6 class="card-subtitle mb-2 text-muted">WEBS1</h6>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          <a href="#" class="card-link">Card link</a>
-                          <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div>
-                    @endfor
-                  </div>
-                </div>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header" id="headingTwo">
-          <h5 class="mb-0">
-            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Periode 2
-            </button>
-          </h5>
-        </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-          <div class="card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header" id="headingThree">
-          <h5 class="mb-0">
-            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              Periode 3
-            </button>
-          </h5>
-        </div>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-          <div class="card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header" id="headingFour">
-            <h5 class="mb-0">
-              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
-                Periode 4
-              </button>
-            </h5>
-          </div>
-          <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-            <div class="card-body">
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              @endforeach
             </div>
           </div>
         </div>
+        @endforeach
       </div>
-    </div>
-  </div>
-
-  </div>
-
 </body>
 
 </html>

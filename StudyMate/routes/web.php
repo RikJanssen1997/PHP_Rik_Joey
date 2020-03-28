@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'DashboardController@index');
 
+Route::get('/{id}', ['uses' =>'DashboardController@openUser']);
+
 Route::get('DeadlineManager', function () {
     return view('DeadlineManager');
 });

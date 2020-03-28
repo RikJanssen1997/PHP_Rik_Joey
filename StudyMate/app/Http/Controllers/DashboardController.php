@@ -2,35 +2,98 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Block;
+use App\Models\Period;
+use App\Models\User;
 use Illuminate\Http\Request;
 use stdClass;
 
 class DashboardController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+        $periods = Period::all();
+        $blocks = Block::all();
 
-        $modules = [];
-        
-        $module = $this->addModule_temporarily('Webdevelopment 1','WEBS1','2','2','6');
-        array_push($modules, $module);
+        foreach ($periods as $key => $period) {
+            $periodBlocks = Block::where('period_id', $period->id)->get();
+            $period["blocks"] = $periodBlocks;
+        }
 
-        $module = $this->addModule_temporarily('PHP 1','PHP1','4','0','4');
-        array_push($modules, $module);
+        $users = User::all();
 
-        $module = $this->addModule_temporarily('Javascript','WEBJS','7','2','2');
-        array_push($modules, $module);
 
-        return view('welcome')->with('modules', $modules);
+        $progress = 0;
+        return view('welcome')->with([
+            'periods' => $periods,
+            'users' => $users,
+            'progress' => $progress,
+            'totalEC' => 0,
+            'totalObtainedEC' => 0,
+        ]);
+    }
+    public function openUser($id)
+    {
+        if(User::where('id',$id)->first() == null){
+            return $this->index();
+        }else{
+            $periods = Period::all();
+            $blocks = Block::all();
+                
+            $users = User::select('id', 'name')->get();
+            $user = User::select('id', 'name')->where('id', $id)->first();
+            $lessons = $user->lessons()->get();
+            $modules = [];
+            foreach ($lessons as $key => $lesson) {
+                $module = $lesson->module()->first();
+    
+                $user_lesson = $lesson->users()->where('user_id', $id)->first();
+    
+                $module["gotEC"] = $user_lesson->pivot->ec;
+                $module["gotGrade"] = $user_lesson->pivot->grade;
+    
+                array_push($modules, $module);
+            }
+            foreach ($blocks as $key => $_block) {
+                $totalEC = 0;
+                $totalObtainedEC = 0;
+                foreach ($modules as $key => $_module) {
+                    if($_module->block_id == $_block->id){
+                        $totalEC = $totalEC + $_module->ec;
+                        $totalObtainedEC = $totalObtainedEC + $_module->gotEC;
+                    }
+                }
+                $_block["totalEC"] = $totalEC;
+                $_block["totalObtainedEC"] = $totalObtainedEC; 
+            }
+
+            foreach ($periods as $key => $period) {
+                $periodBlocks = $blocks->where('period_id', $period->id);
+                $period["blocks"] = $periodBlocks;
+            }
+
+            $progress = $this->calculateProgress($modules);
+            return view('welcome')->with([
+                'modules' => $modules,
+                'periods' => $periods,
+                'users' => $users,
+                'chosenUser' => $user,
+                'progress' => $progress,
+                'totalEC' => 0,
+                'totalObtainedEC' => 0,
+            ]);
+        }
     }
 
-    public function addModule_temporarily($naam,$Afkorting,$Studiepunt,$BehalenStudiepunt,$Cijfer){
-        $module = new stdClass();
-        $module->StudyPoints = $Studiepunt;
-        $module->maxStudyPoints = $BehalenStudiepunt;
-        $module->title = $naam;
-        $module->grade = $Cijfer;
-        $module->short = $Afkorting;
-
-        return $module;
+    public function calculateProgress($modules)
+    {
+        $totalEC = 0;
+        $totalEarnedEC = 0;
+        foreach ($modules as $key => $module) {
+            $totalEC = $totalEC + $module->ec;
+            $totalEarnedEC = $totalEarnedEC + $module->gotEC;
+        }
+        $progress = $totalEarnedEC / $totalEC * 100;
+        return round($progress,2);
     }
 }
