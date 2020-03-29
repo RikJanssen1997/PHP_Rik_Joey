@@ -141,17 +141,19 @@ class ModuleController extends Controller
         $module->toughtBy()->detach($teacher);
         $module->toughtBy()->attach($teacher, ['coordinator' => true]);
         $lessons = Lesson::all();
-        if ($removeTeacher != NULL) {
+        if ($removeTeacher != NULL && $removeTeacher->id != $teacher->id) {
             if ($lessons->where('module_id', '=', $module->id)->where('teacher_id', '=', $teacher->id)->count() < 1) {
                 if ($lessons->where('module_id', '=', $module->id)->where('teacher_id', '=', $removeTeacher->id)->count() > 0) {
                     $lesson = $lessons->where('module_id', '=', $module->id)->where('teacher_id', '=', $removeTeacher->id)->first();
                     $lesson->teacher_id = $teacher->id;
                     $lesson->save();
+                    dd('a');
                 } else {
                     $lesson = new Lesson();
                     $lesson->teacher_id = $teacher->id;
                     $lesson->module_id = $module->id;
                     $lesson->save();
+                    dd('b');
                 }
             } else {
                 if ($lessons->where('module_id', '=', $module->id)->where('teacher_id', '=', $removeTeacher->id)->count() > 0) {
@@ -163,6 +165,7 @@ class ModuleController extends Controller
                         $ec = $followedLesson->pivot->ec;
                         $newLesson->users()->attach($followedLesson->id, ['grade' => $grade, 'ec' => $ec]);
                     }
+                    dd($removeTeacher);
                     $lesson->delete();
                 }
             }
@@ -172,7 +175,7 @@ class ModuleController extends Controller
                 $lesson->teacher_id = $teacher->id;
                 $lesson->module_id = $module->id;
                 $lesson->save();
-                
+                dd('e');
             }
         }
 

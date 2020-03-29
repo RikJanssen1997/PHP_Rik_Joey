@@ -60,9 +60,12 @@
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-                                    @can('manage-users')
+                                    @can('admin-role')
                                     <a class="dropdown-item" href="{{ route('admin.users.index') }}">User management</a>
                                     <a class="dropdown-item" href="{{ route('admin.admin.index') }}">Admin management</a>
+                                    @endcan
+                                    @can('deadlineManager-role')
+                                    <a class="dropdown-item" href="{{ route('deadlineManager.deadlinemanager.index') }}">Deadline manager</a>
                                     @endcan
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf

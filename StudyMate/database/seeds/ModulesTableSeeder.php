@@ -18,9 +18,9 @@ class ModulesTableSeeder extends Seeder
         Module::truncate();
         DB::table('teaching')->delete();
 
-        $teacherKlaas = Teacher::where('name', 'Klaas')->first();
-        $teacherHenk = Teacher::where('name', 'Henk')->first();
-        $teacherJoost = Teacher::where('name', 'Joost')->first();
+        $teacherKlaas = Teacher::where('id', '1')->first();
+        $teacherHenk = Teacher::where('id', '2')->first();
+        $teacherJoost = Teacher::where('id', '3')->first();
 
         $test1 = Test::where('id', 1)->first();
         $test2 = Test::where('id', 2)->first();

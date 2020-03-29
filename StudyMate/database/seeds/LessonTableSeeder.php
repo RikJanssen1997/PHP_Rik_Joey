@@ -19,8 +19,8 @@ class LessonTableSeeder extends Seeder
         DB::table('lesson_user')->delete();
 
 
-        $teacherKlaas = Teacher::where('name', 'Klaas')->first();
-        $teacherHenk = Teacher::where('name', 'Henk')->first();
+        $teacherKlaas = Teacher::where('id', 1)->first();
+        $teacherHenk = Teacher::where('id', 1)->first();
 
         $module1 = Module::where('id', 1)->first();
         $module2 = Module::where('id', 2)->first();
@@ -43,7 +43,9 @@ class LessonTableSeeder extends Seeder
         ]);
         
         $lesson1->users()->attach($user1, ['grade' => 0, 'ec' => 0]);
+        $lesson1->users()->attach($user2, ['grade' => 0, 'ec' => 0]);
         $lesson2->users()->attach($user2, ['grade' => 2, 'ec' => 2]);
+        $lesson3->users()->attach($user3, ['grade' => 0, 'ec' => 0]);
         $lesson3->users()->attach($user3, ['grade' => 3, 'ec' => 3]);
 
 

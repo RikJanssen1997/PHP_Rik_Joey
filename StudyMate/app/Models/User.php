@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Encryptable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,6 +16,14 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    use Encryptable;
+
+    protected $encryptable = [
+        'name'
+    ];
+
+
     protected $fillable = [
         'name', 'email', 'password',
     ];
@@ -42,6 +51,10 @@ class User extends Authenticatable
     }
     public function lessons(){
         return $this->belongsToMany('App\Models\Lesson')->withPivot('grade', 'ec');
+    }
+
+    public function deadlines(){
+        return $this->hasMany('App\Models\Deadline');
     }
 
     public function hasAnyRoles($roles){
