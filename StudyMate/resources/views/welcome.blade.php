@@ -65,7 +65,7 @@
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             @foreach($users as $user)
-            <a class="dropdown-item" href="{{$user->id}}">{{$user->name}}</a>
+            <a class="dropdown-item" href="{{ route('Dashboard',$user->id) }}">{{$user->name}}</a>
             @endforeach
           </div>
         </div>

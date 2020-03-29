@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', 'DashboardController@index');
-Route::get('/{id}', ['uses' =>'DashboardController@openUser']);
+Route::get('/Dashboard/{id}', ['uses' =>'DashboardController@openUser'])->name('Dashboard');
 
 Auth::routes();
 

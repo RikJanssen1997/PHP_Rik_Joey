@@ -46,7 +46,7 @@ class LessonTableSeeder extends Seeder
         $lesson1->users()->attach($user2, ['grade' => 0, 'ec' => 0]);
         $lesson2->users()->attach($user2, ['grade' => 2, 'ec' => 2]);
         $lesson3->users()->attach($user3, ['grade' => 0, 'ec' => 0]);
-        $lesson3->users()->attach($user3, ['grade' => 3, 'ec' => 3]);
+        $lesson1->users()->attach($user3, ['grade' => 3, 'ec' => 3]);
 
 
 
