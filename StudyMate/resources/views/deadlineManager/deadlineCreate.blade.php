@@ -10,12 +10,17 @@
 
                 <div class="card-body">
                     <form action="{{ route('deadlineManager.deadlinemanager.store' , $lesson)}}" method="POST">
-                    @csrf
-                    {{method_field('PUT')}}
+                        @csrf
+                        {{method_field('PUT')}}
                         <div class="form-group row">
                             <label for="modules" class="col-md-2 col-form-label text-md-right">Deadline date</label>
                             <div class="col-md-6">
-                                <input type="date" name="deadlineDate">
+                                <input type="date" class="@error('deadlineDate') is-invalid @enderror" name="deadlineDate">
+                                @error('deadlineDate')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="form-group row">
@@ -30,7 +35,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <button type="submit" class="btn btn-primary">Create</button>
                     </form>
                 </div>

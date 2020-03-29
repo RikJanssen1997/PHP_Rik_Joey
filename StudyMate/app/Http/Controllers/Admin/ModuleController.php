@@ -53,6 +53,10 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'ec' => 'numeric|min:0|max:5',
+        ]);
         $module = new Module;
         $module->name = $request->name;
 
@@ -96,6 +100,7 @@ class ModuleController extends Controller
      */
     public function edit(Module $module)
     {
+        
         $blocks = Block::all();
         $testTypes = TestType::all();
         $teachers = Teacher::all();
@@ -116,6 +121,10 @@ class ModuleController extends Controller
      */
     public function update(Request $request, Module $module)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'ec' => 'numeric|min:0|max:5',
+        ]);
         $test = $module->test()->update([
             'test_type_id' => $request->testType
         ]);
@@ -175,7 +184,7 @@ class ModuleController extends Controller
                 $lesson->teacher_id = $teacher->id;
                 $lesson->module_id = $module->id;
                 $lesson->save();
-                dd('e');
+                
             }
         }
 

@@ -89,11 +89,14 @@ class DashboardController extends Controller
     {
         $totalEC = 0;
         $totalEarnedEC = 0;
+        $progress = 0;
         foreach ($modules as $key => $module) {
             $totalEC = $totalEC + $module->ec;
             $totalEarnedEC = $totalEarnedEC + $module->gotEC;
         }
-        $progress = $totalEarnedEC / $totalEC * 100;
+        if($totalEC > 0){
+            $progress = $totalEarnedEC / $totalEC * 100;
+        }
         return round($progress,2);
     }
 }

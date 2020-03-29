@@ -20,7 +20,7 @@ class LessonTableSeeder extends Seeder
 
 
         $teacherKlaas = Teacher::where('id', 1)->first();
-        $teacherHenk = Teacher::where('id', 1)->first();
+        $teacherHenk = Teacher::where('id', 2)->first();
 
         $module1 = Module::where('id', 1)->first();
         $module2 = Module::where('id', 2)->first();

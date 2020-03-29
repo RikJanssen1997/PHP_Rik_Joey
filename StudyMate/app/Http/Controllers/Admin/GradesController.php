@@ -15,6 +15,12 @@ class GradesController extends Controller
         ]);
     }
     public function update(Request $request, Lesson $lesson){
+        $validatedData = $request->validate([
+             'ec'=>'required|array',
+             'ec.*' => 'numeric|min:0|max:5',
+             'grade'=>'required|array',
+             'grade.*' => 'numeric|min:0|max:10'
+        ]);
         $counter = 0;
         foreach($lesson->users as $user){
              User::find($user->id)->lessons()->updateExistingPivot($lesson, ['grade' => $request->grade[$counter], 'ec' => $request->ec[$counter]] );
