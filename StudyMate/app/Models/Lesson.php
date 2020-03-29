@@ -15,4 +15,7 @@ class Lesson extends Model
     public function module(){
         return $this->belongsTo('App\Models\Module');
     }
+    public function deadlines(){
+        return $this->hasMany('App\Models\Deadline');
+    }
 }

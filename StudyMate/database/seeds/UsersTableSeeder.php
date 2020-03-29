@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         DB::table('role_user')->delete();
 
         $adminRole = Role::where('name', 'admin')->first();
-        $authorRole = Role::where('name', 'author')->first();
+        $deadlineManagerRole = Role::where('name', 'deadlineManager')->first();
         $userRole = Role::where('name', 'user')->first();
 
         $admin = User::create([
@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $admin->roles()->attach($adminRole);
-        $author->roles()->attach($authorRole);
+        $author->roles()->attach($deadlineManagerRole);
         $user->roles()->attach($userRole);
     }
 }

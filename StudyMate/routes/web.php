@@ -19,15 +19,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'DashboardController@index');
 
-Route::get('DeadlineManager', function () {
-    return view('DeadlineManager');
-});
+
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('admin/users', 'Admin\UsersController',['except' => ['show', 'create','store']]);
+
+Route::namespace('DeadlineManager')->prefix('deadlineManager')->name('deadlineManager.')->middleware('can:deadlineManager-role')->group(function(){
+    Route::get('/deadlineManager/index', 'DeadlineManagerController@index')->name('deadlinemanager.index');
+    Route::get('/deadlineManager/create{lesson}', 'DeadlineManagerController@create')->name('deadlinemanager.create');
+    Route::put('/deadlineManager/store{lesson}', 'DeadlineManagerController@store')->name('deadlinemanager.store');
+});
 
 Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:admin-role')->group(function(){
     Route::resource('/users', 'UsersController',['except' => ['show', 'create','store']]);
@@ -36,5 +40,5 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('can:admi
     Route::resource('/teacher', 'TeacherController');
     Route::resource('/lesson', 'LessonController');
     Route::get('/grades/edit{lesson}', 'GradesController@edit')->name('grades.edit');
-    Route::get('/grades/update{lesson, request}', 'GradesController@update')->name('grades.update');
+    Route::put('/grades/update{lesson}', 'GradesController@update')->name('grades.update');
 });

@@ -11,6 +11,6 @@ class Test extends Model
         return $this->hasOne('App\Models\Module');
     }
     public function testType(){
-        return $this->belongsTo('App\Models\Test', 'test_type_id');
+        return $this->belongsTo('App\Models\TestType', 'test_type_id');
     }
 }
