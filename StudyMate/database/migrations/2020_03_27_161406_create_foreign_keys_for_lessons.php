@@ -32,6 +32,13 @@ class CreateForeignKeysForLessons extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('foreign_keys_for_lessons');
+        Schema::table('lessons', function (Blueprint $table){
+            $table->dropForeign('lessons_teacher_id_foreign');
+            $table->dropForeign('lessons_module_id_foreign');
+        });
+        Schema::table('lesson_user', function (Blueprint $table){
+            $table->dropForeign('lesson_user_lesson_id_foreign');
+            $table->dropForeign('lesson_user_user_id_foreign');
+        });
     }
 }

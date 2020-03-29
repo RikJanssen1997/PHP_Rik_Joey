@@ -49,6 +49,7 @@ class TeacherController extends Controller
             $lesson = new Lesson();
             $lesson->teacher_id = $teacher->id;
             $lesson->module_id = $newModule->id;
+            dd($lesson);
             $lesson->save();
         }
         return redirect()->route('admin.admin.index');

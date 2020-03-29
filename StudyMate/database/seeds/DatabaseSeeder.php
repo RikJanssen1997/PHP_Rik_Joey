@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Deadline;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(BlockTableSeeder::class);
         $this->call(ModulesTableSeeder::class);
         $this->call(LessonTableSeeder::class);
+        $this->call(TagTableSeeder::class);
+        $this->call(DeadlineTableSeeder::class);
+
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
