@@ -16,5 +16,7 @@ class PeriodTableSeeder extends Seeder
 
         Period::create(['number' => 1]);
         Period::create(['number' => 2]);
+        Period::create(['number' => 3]);
+        Period::create(['number' => 4]);
     }
 }
