@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Create Module</div>
+                <div class="card-header">Create Teacher</div>
 
                 <div class="card-body">
                     <form action="{{ route('admin.teacher.store') }}" method="POST">

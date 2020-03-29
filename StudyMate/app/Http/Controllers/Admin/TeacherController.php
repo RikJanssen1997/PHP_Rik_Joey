@@ -40,6 +40,9 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+        ]);
         $teacher = new Teacher();
         $teacher->name = $request->name;
         $teacher->save();
@@ -91,6 +94,9 @@ class TeacherController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+        ]);
         $coordinators = array();
         foreach($teacher->teaching()->get() as $taught){
             if($teacher->teaching()->wherePivot('module_id', '=', $taught->id)->wherePivot('coordinator', '=', '1')->exists()){

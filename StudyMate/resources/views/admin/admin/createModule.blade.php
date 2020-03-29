@@ -62,10 +62,15 @@
                         <div class="form-group row">
                             <label for="ec" class="col-md-2 col-form-label text-md-right">EC</label>
                             <div class="col-md-6">
-                            <input type="number" id="ec" name="ec" min="1" max="5" required="true">
+                                <input class="form-control @error('ec') is-invalid @enderror" type="number" id="ec" name="ec" min="1" max="5" required="true">
+                                @error('ec')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
                     </form>
                 </div>
             </div>

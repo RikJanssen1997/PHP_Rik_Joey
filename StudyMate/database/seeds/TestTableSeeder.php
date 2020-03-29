@@ -19,7 +19,7 @@ class TestTableSeeder extends Seeder
         $test = TestType::where('name', 'Test')->first();
 
         Test::create(
-            ['test_type_id'=> $assessment->id]
+            ['test_type_id'=> $test->id]
         );
         Test::create(
             ['test_type_id'=> $assessment->id]

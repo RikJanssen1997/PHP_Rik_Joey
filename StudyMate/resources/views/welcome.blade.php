@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <title>Laravel</title>
+  <title>Study Mate</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -14,7 +14,6 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}" defer></script>
@@ -72,7 +71,7 @@
       </div>
       @if(isset($chosenUser))
         <h3>Gekozen student: {{$chosenUser->name}}</h3>
-      @endif
+      
 
       <div id="accordion">
         @foreach($periods as $period)
@@ -131,6 +130,7 @@
         </div>
         @endforeach
       </div>
+      @endif
 </body>
 
 </html>

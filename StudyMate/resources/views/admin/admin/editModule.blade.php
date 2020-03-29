@@ -9,8 +9,8 @@
 
                 <div class="card-body">
                     <form action="{{ route('admin.module.update', $module) }}" method="POST">
-                    @csrf
-                    {{method_field('PUT')}}
+                        @csrf
+                        {{method_field('PUT')}}
                         <div class="form-group row">
                             <label for="name" class="col-md-2 col-form-label text-md-right">Name</label>
 
@@ -29,7 +29,7 @@
                             <div class="col-md-6">
                                 <select id="test" name="testType">
                                     @foreach($testTypes as $testType)
-                                    <option value="{{$testType->id}}"@if($module->test->test_type_id == $testType->id)selected @endif>
+                                    <option value="{{$testType->id}}" @if($module->test->test_type_id == $testType->id)selected @endif>
                                         {{$testType->name}}
                                     </option>
                                     @endforeach
@@ -63,7 +63,12 @@
                         <div class="form-group row">
                             <label for="ec" class="col-md-2 col-form-label text-md-right">EC</label>
                             <div class="col-md-6">
-                            <input type="number" id="ec" name="ec" min="1" max="5" required="true" value="{{ $module->ec }}">
+                                <input  class="form-control @error('ec') is-invalid @enderror" type="number" id="ec" name="ec" min="1" max="5" required="true" value="{{ $module->ec }}">
+                                @error('ec')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Update</button>
